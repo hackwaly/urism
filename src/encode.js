@@ -61,7 +61,7 @@ export function encode (obj) {
     str = str.replace(/[^A-Za-z0-9-._~?/:@$&+,;=]+/g, (m) => encodeURIComponent(m))
 
     if (/[,;&=]/.test(str) || /^[+\-$?:0-9]/.test(str)) {
-      str = str.replace(/\?[,;&=]/g, (m) => `?${encodeURIComponent(m.charAt(1))}`)
+      str = str.replace(/\?[,;=&]/g, (m) => `?${encodeURIComponent(m.charAt(1))}`)
       if (endDelimiter === '') {
         emit(`?${str}`)
         return

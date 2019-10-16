@@ -62,5 +62,5 @@ test('encode object', () => {
 test('encode cyclic reference', () => {
   const a = {}
   a.a = a
-  expect(encode(a)).toBe('?a=0$:a=$0')
+  expect(encode({ a })).toBe('?a=0$:a=$0')
 })
