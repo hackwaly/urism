@@ -1,9 +1,10 @@
 {
   "name": "urism",
   "description": "Convert your JS object from/to human readable URI.",
-  "version": "0.1.0",
+  "version": "0.1.1",
+  "license": "MIT",
   "module": "./src/urism",
-  "main": "",
+  "repository": "github:hackwaly/urism",
   "scripts": {
     "test": "jest"
   },

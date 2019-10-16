@@ -8,7 +8,7 @@ export function encode (obj) {
     buffer += value
   }
 
-  function encodeValue (value, endDelimiter) {
+  function emitValue (value, endDelimiter) {
     switch (typeof value) {
       case 'undefined': {
         emit('$undef')
@@ -85,7 +85,7 @@ export function encode (obj) {
 
     emitString(key, '=')
     emit('=')
-    encodeValue(value, endDelimiter)
+    emitValue(value, endDelimiter)
   }
 
   function emitObjectInner (obj, endDelimiter) {
@@ -126,7 +126,7 @@ export function encode (obj) {
     for (let i = 0; i < arr.length; i++) {
       const value = arr[i]
       const isLast = i === arr.length - 1
-      encodeValue(value, ',')
+      emitValue(value, ',')
       if (!isLast) {
         emit(',')
       }

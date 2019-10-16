@@ -1,0 +1,5 @@
+.vscode
+.editorconfig
+.eslintrc.json
+.gitignore
+**/*.test.js
