@@ -10,7 +10,6 @@ export function decode (input, refs) {
   if (input.charAt(0) !== '?') throw new Error()
 
   const localRefs = { ...builtinRefs, ...refs }
-  let setRefEarly = null
 
   let cursor = 1
 
@@ -62,7 +61,7 @@ export function decode (input, refs) {
     return decodeURIComponent(str)
   }
 
-  function readArray () {
+  function readArray (setRefEarly) {
     cursor++
 
     const result = []
@@ -95,7 +94,7 @@ export function decode (input, refs) {
     return result
   }
 
-  function readDictInner () {
+  function readDictInner (setRefEarly) {
     const result = {}
     if (setRefEarly) {
       setRefEarly(result)
@@ -137,10 +136,10 @@ export function decode (input, refs) {
     return result
   }
 
-  function readDict () {
+  function readDict (setRefEarly) {
     cursor++
 
-    const result = readDictInner()
+    const result = readDictInner(setRefEarly)
 
     const ch = peek()
     if (ch === ';') {
@@ -150,7 +149,7 @@ export function decode (input, refs) {
     return result
   }
 
-  function readValue () {
+  function readValue (setRefEarly) {
     const ch = peek()
 
     if (ch === '&' || ch === '') {
@@ -161,19 +160,17 @@ export function decode (input, refs) {
       const num = readUntil(/[^0-9.]/g)
       if (peek() === '$') {
         cursor++
-        setRefEarly = (value) => {
+        const value = readValue((value) => {
           localRefs[`$${num}`] = value
-        }
-        const value = readValue()
+        })
         localRefs[`$${num}`] = value
-        setRefEarly = null
         return value
       }
       return Number(num)
     }
 
     if (ch === '+') {
-      return readArray()
+      return readArray(setRefEarly)
     }
 
     if (ch === '$') {
@@ -189,7 +186,7 @@ export function decode (input, refs) {
     }
 
     if (ch === ':') {
-      return readDict()
+      return readDict(setRefEarly)
     }
 
     return readString()
