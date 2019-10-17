@@ -71,6 +71,7 @@ export function encode (obj) {
         if (isNaN(value)) return emit('$nan')
         if (value === Infinity) return emit('$inf')
         if (value === -Infinity) return emit('-$inf')
+        return emit(`${value}`)
       }
       // Fallthrough
       case 'bigint': {
