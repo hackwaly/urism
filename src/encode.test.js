@@ -11,8 +11,8 @@ test('encode true, false', () => {
   expect(encode({ a: true, b: true })).toBe('?a&b')
   expect(encode({ a: true, b: false })).toBe('?a&-b')
   expect(encode({ a: false, b: true })).toBe('?-a&b')
-  expect(encode({ a: [true] })).toBe('?a=+$true')
-  expect(encode({ a: [false] })).toBe('?a=+$false')
+  expect(encode({ a: [true] })).toBe('?a=:$true')
+  expect(encode({ a: [false] })).toBe('?a=:$false')
 })
 
 test('encode number', () => {
@@ -28,7 +28,7 @@ test('encode number', () => {
 
 test('encode bigint', () => {
   // eslint-disable-next-line no-eval
-  expect(encode({ a: eval('100000000000n') })).toBe('?a=$bigint+100000000000;')
+  expect(encode({ a: eval('100000000000n') })).toBe('?a=$bigint:100000000000;')
 })
 
 test('encode string', () => {
@@ -52,32 +52,32 @@ test('encode string', () => {
 })
 
 test('encode array', () => {
-  expect(encode({ a: [] })).toBe('?a=+')
-  expect(encode({ a: [1] })).toBe('?a=+1')
-  expect(encode({ a: [1, 2, 3] })).toBe('?a=+1,2,3')
-  expect(encode({ a: [',', 1] })).toBe('?a=+?,?,1')
-  expect(encode({ a: [',', 1] })).toBe('?a=+?,?,1')
-  expect(encode({ a: [1], b: true })).toBe('?a=+1&b')
-  expect(encode({ a: [[1, 2], 3] })).toBe('?a=++1,2;,3')
+  expect(encode({ a: [] })).toBe('?a=:')
+  expect(encode({ a: [1] })).toBe('?a=:1')
+  expect(encode({ a: [1, 2, 3] })).toBe('?a=:1,2,3')
+  expect(encode({ a: [',', 1] })).toBe('?a=:?,?,1')
+  expect(encode({ a: [',', 1] })).toBe('?a=:?,?,1')
+  expect(encode({ a: [1], b: true })).toBe('?a=:1&b')
+  expect(encode({ a: [[1, 2], 3] })).toBe('?a=::1,2;,3')
 })
 
 test('encode object', () => {
-  expect(encode({ a: {} })).toBe('?a=:')
-  expect(encode({ a: {}, b: true })).toBe('?a=:&b')
-  expect(encode({ a: { b: {} } })).toBe('?a=:b=:')
-  expect(encode({ a: { b: {}, c: true } })).toBe('?a=:b=:&c')
+  expect(encode({ a: {} })).toBe('?a=+')
+  expect(encode({ a: {}, b: true })).toBe('?a=+&b')
+  expect(encode({ a: { b: {} } })).toBe('?a=+b=+')
+  expect(encode({ a: { b: {}, c: true } })).toBe('?a=+b=+&c')
 })
 
 test('encode cyclic reference', () => {
   const a = {}
   a.a = a
-  expect(encode({ a })).toBe('?a=0$:a=$0')
+  expect(encode({ a })).toBe('?a=0$+a=$0')
 })
 
 test('encode date', () => {
-  expect(encode({ a: new Date(1483228800000) })).toBe('?a=$date+2017-01-01T00:00:00.000Z;')
+  expect(encode({ a: new Date(1483228800000) })).toBe('?a=$date:2017-01-01T00:00:00.000Z;')
 })
 
 test('encode regexp', () => {
-  expect(encode({ a: /a|b/g })).toBe('?a=$regexp+a%7Cb,g;')
+  expect(encode({ a: /a|b/g })).toBe('?a=$regexp:a%7Cb,g;')
 })

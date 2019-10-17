@@ -9,13 +9,13 @@ export function encode (obj) {
   }
 
   function emitDate (value) {
-    emit('$date+')
+    emit('$date:')
     emitValue(value.toISOString())
     emit(';')
   }
 
   function emitRegExp (value) {
-    emit('$regexp+')
+    emit('$regexp:')
     emitValue(value.source)
     emit(',')
     emitValue(value.flags)
@@ -82,7 +82,7 @@ export function encode (obj) {
       }
       // Fallthrough
       case 'bigint': {
-        emit(`$bigint+${value};`)
+        emit(`$bigint:${value};`)
         return
       }
       case 'symbol':
@@ -142,12 +142,12 @@ export function encode (obj) {
     const keys = Object.keys(obj)
     if (keys.length === 0) {
       if (endDelimiter === '&' || endDelimiter === '') {
-        emit(':')
+        emit('+')
       } else {
-        emit(':;')
+        emit('+;')
       }
     } else {
-      emit(':')
+      emit('+')
       if (endDelimiter === '') {
         emitObjectInner(obj, '')
       } else {
@@ -158,7 +158,7 @@ export function encode (obj) {
   }
 
   function emitArray (arr, endDelimiter) {
-    emit('+')
+    emit(':')
     for (let i = 0; i < arr.length; i++) {
       const value = arr[i]
       const isLast = i === arr.length - 1

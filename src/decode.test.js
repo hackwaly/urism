@@ -27,7 +27,7 @@ test('decode number', () => {
 
 test('decode bigint', () => {
   // eslint-disable-next-line no-eval
-  expect(decode('?a=$bigint+100000000000;')).toEqual({ a: eval('100000000000n') })
+  expect(decode('?a=$bigint:100000000000;')).toEqual({ a: eval('100000000000n') })
 })
 
 test('decode string', () => {
@@ -51,32 +51,32 @@ test('decode string', () => {
 })
 
 test('decode array', () => {
-  expect(decode('?a=+')).toEqual({ a: [] })
-  expect(decode('?a=+1')).toEqual({ a: [1] })
-  expect(decode('?a=+1,2,3')).toEqual({ a: [1, 2, 3] })
-  expect(decode('?a=+?,?,1')).toEqual({ a: [',', 1] })
-  expect(decode('?a=+?,?,1')).toEqual({ a: [',', 1] })
-  expect(decode('?a=+1&b')).toEqual({ a: [1], b: true })
-  expect(decode('?a=++1,2;,3')).toEqual({ a: [[1, 2], 3] })
+  expect(decode('?a=:')).toEqual({ a: [] })
+  expect(decode('?a=:1')).toEqual({ a: [1] })
+  expect(decode('?a=:1,2,3')).toEqual({ a: [1, 2, 3] })
+  expect(decode('?a=:?,?,1')).toEqual({ a: [',', 1] })
+  expect(decode('?a=:?,?,1')).toEqual({ a: [',', 1] })
+  expect(decode('?a=:1&b')).toEqual({ a: [1], b: true })
+  expect(decode('?a=::1,2;,3')).toEqual({ a: [[1, 2], 3] })
 })
 
 test('decode object', () => {
-  expect(decode('?a=:')).toEqual({ a: {} })
-  expect(decode('?a=:&b')).toEqual({ a: {}, b: true })
-  expect(decode('?a=:b=:')).toEqual({ a: { b: {} } })
-  expect(decode('?a=:b=:&c')).toEqual({ a: { b: {}, c: true } })
+  expect(decode('?a=+')).toEqual({ a: {} })
+  expect(decode('?a=+&b')).toEqual({ a: {}, b: true })
+  expect(decode('?a=+b=+')).toEqual({ a: { b: {} } })
+  expect(decode('?a=+b=+&c')).toEqual({ a: { b: {}, c: true } })
 })
 
 test('decode cyclic reference', () => {
   const a = {}
   a.a = a
-  expect(decode('?a=0$:a=$0').a).toEqual(a)
+  expect(decode('?a=0$+a=$0').a).toEqual(a)
 })
 
 test('decode date', () => {
-  expect(decode('?a=$date+2017-01-01T00:00:00.000Z;')).toEqual({ a: new Date(1483228800000) })
+  expect(decode('?a=$date:2017-01-01T00:00:00.000Z;')).toEqual({ a: new Date(1483228800000) })
 })
 
 test('decode regexp', () => {
-  expect(decode('?a=$regexp+a%7Cb,g;')).toEqual({ a: /a|b/g })
+  expect(decode('?a=$regexp:a%7Cb,g;')).toEqual({ a: /a|b/g })
 })

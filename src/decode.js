@@ -189,13 +189,13 @@ export function decode (input, refs) {
       return num
     }
 
-    if (ch === '+') {
+    if (ch === ':') {
       return readArray(setRefEarly)
     }
 
     if (ch === '$') {
       const key = readUntil(/[^A-Za-z0-9_$]/g)
-      if (peek() === '+') {
+      if (peek() === ':') {
         const params = readArray()
         return localRefs[key](...params)
       }
@@ -209,7 +209,7 @@ export function decode (input, refs) {
       return -value
     }
 
-    if (ch === ':') {
+    if (ch === '+') {
       return readDict(setRefEarly)
     }
 
