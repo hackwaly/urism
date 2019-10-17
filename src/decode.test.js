@@ -37,6 +37,8 @@ test('decode string', () => {
   expect(decode('?a=?123')).toEqual({ a: '123' })
   expect(decode('?a=?-123')).toEqual({ a: '-123' })
   expect(decode('?a=?-123?&b')).toEqual({ a: '-123', b: true })
+  expect(decode('?a=1.0.0')).toEqual({ a: '1.0.0' })
+  expect(decode('?a=63510009-e258-4162-8bbe-7e61c9ddcfd8')).toEqual({ a: '63510009-e258-4162-8bbe-7e61c9ddcfd8' })
   expect(decode('?a=hello')).toEqual({ a: 'hello' })
   expect(decode('?a=hello%20world')).toEqual({ a: 'hello world' })
   expect(decode('?a=hello%20%E4%B8%AD%E5%9B%BD')).toEqual({ a: 'hello 中国' })
@@ -72,7 +74,7 @@ test('decode cyclic reference', () => {
 })
 
 test('decode date', () => {
-  expect(decode('?a=$date+1483228800000;')).toEqual({ a: new Date(1483228800000) })
+  expect(decode('?a=$date+2017-01-01T00:00:00.000Z;')).toEqual({ a: new Date(1483228800000) })
 })
 
 test('decode regexp', () => {

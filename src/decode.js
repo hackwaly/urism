@@ -169,16 +169,24 @@ export function decode (input, refs) {
     }
 
     if (/^[0-9]$/.test(ch)) {
-      const num = readUntil(/[^0-9.e+-]/g)
-      if (peek() === '$') {
-        cursor++
+      const reg = /(?:[1-9][0-9]*|0)\$/gy
+      reg.lastIndex = cursor
+      const match = reg.exec(input)
+      if (match !== null) {
+        cursor = reg.lastIndex
+        const key = match[0].slice(0, -1)
         const value = readValue((value) => {
-          localRefs[`$${num}`] = value
+          localRefs[`$${key}`] = value
         })
-        localRefs[`$${num}`] = value
+        localRefs[`$${key}`] = value
         return value
       }
-      return Number(num)
+      const str = readUntil(/[,;=&]/g)
+      const num = Number(str)
+      if (isNaN(num)) {
+        return str
+      }
+      return num
     }
 
     if (ch === '+') {

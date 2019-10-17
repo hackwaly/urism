@@ -10,7 +10,7 @@ export function encode (obj) {
 
   function emitDate (value) {
     emit('$date+')
-    emitValue(value.getTime())
+    emitValue(value.toISOString())
     emit(';')
   }
 
@@ -96,7 +96,7 @@ export function encode (obj) {
   function emitString (str, endDelimiter) {
     str = str.replace(/[^A-Za-z0-9-._~?/:@$&+,;=]+/g, (m) => encodeURIComponent(m))
 
-    if (/[,;&=]/.test(str) || /^[+\-$?:0-9]/.test(str)) {
+    if (/[,;&=]/.test(str) || /^[+\-$?:]/.test(str) || /^(?:[1-9][0-9]*|0)(?:(?:[.][0-9]+)?(?:[eE][+-]?(?:[1-9][0-9]*|0))?$|\$)/.test(str)) {
       str = str.replace(/\?[,;=&]/g, (m) => `?${encodeURIComponent(m.charAt(1))}`)
       if (endDelimiter === '') {
         emit(`?${str}`)

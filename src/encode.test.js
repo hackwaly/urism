@@ -38,6 +38,8 @@ test('encode string', () => {
   expect(encode({ a: '123' })).toBe('?a=?123')
   expect(encode({ a: '-123' })).toBe('?a=?-123')
   expect(encode({ a: '-123', b: true })).toBe('?a=?-123?&b')
+  expect(encode({ a: '1.0.0' })).toBe('?a=1.0.0')
+  expect(encode({ a: '63510009-e258-4162-8bbe-7e61c9ddcfd8' })).toBe('?a=63510009-e258-4162-8bbe-7e61c9ddcfd8')
   expect(encode({ a: 'hello' })).toBe('?a=hello')
   expect(encode({ a: 'hello world' })).toBe('?a=hello%20world')
   expect(encode({ a: 'hello 中国' })).toBe('?a=hello%20%E4%B8%AD%E5%9B%BD')
@@ -73,7 +75,7 @@ test('encode cyclic reference', () => {
 })
 
 test('encode date', () => {
-  expect(encode({ a: new Date(1483228800000) })).toBe('?a=$date+1483228800000;')
+  expect(encode({ a: new Date(1483228800000) })).toBe('?a=$date+2017-01-01T00:00:00.000Z;')
 })
 
 test('encode regexp', () => {
