@@ -11,6 +11,8 @@ test('encode true, false', () => {
   expect(encode({ a: true, b: true })).toBe('?a&b')
   expect(encode({ a: true, b: false })).toBe('?a&-b')
   expect(encode({ a: false, b: true })).toBe('?-a&b')
+  expect(encode({ a: [true] })).toBe('?a=+$true')
+  expect(encode({ a: [false] })).toBe('?a=+$false')
 })
 
 test('encode number', () => {

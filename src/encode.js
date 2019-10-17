@@ -15,7 +15,12 @@ export function encode (obj) {
         return
       }
       case 'boolean': {
-        throw new Error('Assertion failed')
+        if (value) {
+          emit('$true')
+        } else {
+          emit('$false')
+        }
+        return
       }
       case 'string': {
         emitString(value, endDelimiter)

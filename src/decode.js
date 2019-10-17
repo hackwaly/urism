@@ -1,6 +1,8 @@
 const builtinRefs = {
   $undef: undefined,
   $null: null,
+  $true: true,
+  $false: false,
   $nan: NaN,
   $inf: Infinity
 }
