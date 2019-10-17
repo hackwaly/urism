@@ -8,6 +8,20 @@ export function encode (obj) {
     buffer += value
   }
 
+  function emitDate (value) {
+    emit('$date+')
+    emitValue(value.getTime())
+    emit(';')
+  }
+
+  function emitRegExp (value) {
+    emit('$regexp+')
+    emitValue(value.source)
+    emit(',')
+    emitValue(value.flags)
+    emit(';')
+  }
+
   function emitValue (value, endDelimiter) {
     switch (typeof value) {
       case 'undefined': {
@@ -40,6 +54,14 @@ export function encode (obj) {
         })
         if (Array.isArray(value)) {
           emitArray(value, endDelimiter)
+          return
+        }
+        if (value instanceof Date) {
+          emitDate(value)
+          return
+        }
+        if (value instanceof RegExp) {
+          emitRegExp(value)
           return
         }
         emitObject(value, endDelimiter)

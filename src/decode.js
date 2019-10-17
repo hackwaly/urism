@@ -4,7 +4,13 @@ const builtinRefs = {
   $true: true,
   $false: false,
   $nan: NaN,
-  $inf: Infinity
+  $inf: Infinity,
+  $date: (time) => {
+    return new Date(time)
+  },
+  $regexp: (source, flags) => {
+    return new RegExp(source, flags)
+  }
 }
 
 export function decode (input, refs) {
@@ -177,6 +183,10 @@ export function decode (input, refs) {
 
     if (ch === '$') {
       const key = readUntil(/[^A-Za-z0-9_$]/g)
+      if (peek() === '+') {
+        const params = readArray()
+        return localRefs[key](...params)
+      }
       const value = localRefs[key]
       return value
     }

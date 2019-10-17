@@ -66,3 +66,11 @@ test('encode cyclic reference', () => {
   a.a = a
   expect(encode({ a })).toBe('?a=0$:a=$0')
 })
+
+test('encode date', () => {
+  expect(encode({ a: new Date(1483228800000) })).toBe('?a=$date+1483228800000;')
+})
+
+test('encode regexp', () => {
+  expect(encode({ a: /a|b/g })).toBe('?a=$regexp+a%7Cb,g;')
+})

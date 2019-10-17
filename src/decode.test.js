@@ -64,3 +64,11 @@ test('decode cyclic reference', () => {
   a.a = a
   expect(decode('?a=0$:a=$0').a).toEqual(a)
 })
+
+test('decode date', () => {
+  expect(decode('?a=$date+1483228800000;')).toEqual({ a: new Date(1483228800000) })
+})
+
+test('decode regexp', () => {
+  expect(decode('?a=$regexp+a%7Cb,g;')).toEqual({ a: /a|b/g })
+})
