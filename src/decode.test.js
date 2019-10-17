@@ -11,6 +11,8 @@ test('decode true, false', () => {
   expect(decode('?a&b')).toEqual({ a: true, b: true })
   expect(decode('?a&-b')).toEqual({ a: true, b: false })
   expect(decode('?-a&b')).toEqual({ a: false, b: true })
+  expect(decode('?a=:$true')).toEqual({ a: [true] })
+  expect(decode('?a=:$false')).toEqual({ a: [false] })
 })
 
 test('decode number', () => {
