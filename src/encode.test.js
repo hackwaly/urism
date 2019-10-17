@@ -23,7 +23,7 @@ test('encode number', () => {
   expect(encode({ a: 123 })).toBe('?a=123')
   expect(encode({ a: 1.23 })).toBe('?a=1.23')
   expect(encode({ a: -5 })).toBe('?a=-5')
-  expect(encode({ a: 1e5 })).toBe('?a=100000')
+  expect(encode({ a: 1e5 })).toBe('?a=1e5')
 })
 
 test('encode bigint', () => {

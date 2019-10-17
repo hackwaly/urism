@@ -71,11 +71,19 @@ export function encode (obj) {
         if (isNaN(value)) return emit('$nan')
         if (value === Infinity) return emit('$inf')
         if (value === -Infinity) return emit('-$inf')
-        return emit(`${value}`)
+        const decimal = value.toString()
+        const exponential = value.toExponential().replace(/[eE]\+/g, 'e')
+        if (exponential.length < decimal.length) {
+          emit(exponential)
+          return
+        }
+        emit(decimal)
+        return
       }
       // Fallthrough
       case 'bigint': {
-        return emit(`$bigint+${value};`)
+        emit(`$bigint+${value};`)
+        return
       }
       case 'symbol':
       case 'function':

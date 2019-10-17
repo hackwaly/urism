@@ -22,6 +22,7 @@ test('decode number', () => {
   expect(decode('?a=1.23')).toEqual({ a: 1.23 })
   expect(decode('?a=-5')).toEqual({ a: -5 })
   expect(decode('?a=100000')).toEqual({ a: 1e5 })
+  expect(decode('?a=1e5')).toEqual({ a: 1e5 })
 })
 
 test('decode bigint', () => {

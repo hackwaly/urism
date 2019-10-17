@@ -169,7 +169,7 @@ export function decode (input, refs) {
     }
 
     if (/^[0-9]$/.test(ch)) {
-      const num = readUntil(/[^0-9.]/g)
+      const num = readUntil(/[^0-9.e+-]/g)
       if (peek() === '$') {
         cursor++
         const value = readValue((value) => {
