@@ -10,6 +10,10 @@ const builtinRefs = {
   },
   $regexp: (source, flags) => {
     return new RegExp(source, flags)
+  },
+  $bigint: (str) => {
+    // eslint-disable-next-line no-undef
+    return BigInt(str)
   }
 }
 

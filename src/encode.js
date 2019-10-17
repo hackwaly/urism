@@ -74,7 +74,7 @@ export function encode (obj) {
       }
       // Fallthrough
       case 'bigint': {
-        return emit(`${value}`)
+        return emit(`$bigint+${value};`)
       }
       case 'symbol':
       case 'function':

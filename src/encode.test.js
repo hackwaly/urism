@@ -26,6 +26,11 @@ test('encode number', () => {
   expect(encode({ a: 1e5 })).toBe('?a=100000')
 })
 
+test('encode bigint', () => {
+  // eslint-disable-next-line no-eval
+  expect(encode({ a: eval('100000000000n') })).toBe('?a=$bigint+100000000000;')
+})
+
 test('encode string', () => {
   expect(encode({ a: '' })).toBe('?a=')
   expect(encode({ a: '', b: true })).toBe('?a=&b')
