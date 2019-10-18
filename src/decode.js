@@ -184,7 +184,7 @@ export function decode (input, refs) {
       const str = readUntil(/[,;=&]/g)
       const num = Number(str)
       if (isNaN(num)) {
-        return str
+        return decodeURIComponent(str)
       }
       return num
     }

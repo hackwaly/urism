@@ -50,6 +50,7 @@ test('decode string', () => {
   expect(decode('?a=?a+-:@/$;=?')).toEqual({ a: 'a+-:@/$;=?' })
   expect(decode('?a=?a+-:@/$,;=?')).toEqual({ a: 'a+-:@/$,;=?' })
   expect(decode('?a=?a+-:@/&')).toEqual({ a: 'a+-:@/&' })
+  expect(decode('?a=1%202')).toEqual({ a: '1 2' })
 })
 
 test('decode array', () => {
