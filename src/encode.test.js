@@ -1,8 +1,12 @@
 import { encode } from './encode'
 
+test('encode undefined', () => {
+  expect(encode({ a: undefined })).toBe('?')
+  expect(encode({ a: [undefined] })).toBe('?a=:$undef')
+})
+
 test('encode null, undefined', () => {
   expect(encode({ a: null })).toBe('?a=$null')
-  expect(encode({ a: undefined })).toBe('?a=$undef')
 })
 
 test('encode true, false', () => {

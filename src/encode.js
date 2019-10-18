@@ -110,6 +110,10 @@ export function encode (obj) {
   }
 
   function emitPair (key, value, endDelimiter) {
+    if (value === undefined) {
+      return
+    }
+
     if (value === false) {
       emit('-')
     }
