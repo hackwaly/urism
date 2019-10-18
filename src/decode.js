@@ -5,8 +5,24 @@ const builtinRefs = {
   $false: false,
   $nan: NaN,
   $inf: Infinity,
-  $date: (time) => {
-    return new Date(time)
+  $date: (str) => {
+    const match = /~?([0-9]+)(?:-([0-9]{2})(?:-([0-9]{2})(?:T([0-9]{2}):([0-9]{2})(?::([0-9]{2})(?:\.([0-9]{3}))?)?)?)?)?(([+-])([0-9]{2})([0-9]{2})?|Z)/.exec(str)
+    const date = new Date(0)
+    date.setUTCFullYear(+match[1])
+    date.setUTCMonth(match[2] ? +match[2] - 1 : 0)
+    date.setUTCDate(match[3] ? +match[3] : 1)
+    date.setUTCHours(match[4] ? +match[4] : 0)
+    date.setUTCMinutes(match[5] ? +match[5] : 0)
+    date.setUTCSeconds(match[6] ? +match[6] : 0)
+    date.setUTCMilliseconds(match[7] ? +match[7] : 0)
+    let offset = match[8] === 'Z' ? 0 : (
+      (match[9] === '+' ? -1 : 1) * (+match[10] * 60 + (match[11] ? +match[11] : 0)) * 60000
+    )
+    if (str.charAt(0) === '~') {
+      offset -= 1
+    }
+    date.setTime(date.getTime() + offset)
+    return date
   },
   $regexp: (source, flags) => {
     return new RegExp(source, flags)

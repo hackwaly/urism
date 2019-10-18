@@ -77,7 +77,7 @@ test('decode cyclic reference', () => {
 })
 
 test('decode date', () => {
-  expect(decode('?a=$date:2017-01-01T00:00:00.000Z;')).toEqual({ a: new Date(1483228800000) })
+  expect(decode('?a=$date:2017-01-01T08:00+08;')).toEqual({ a: new Date(1483228800000) })
 })
 
 test('decode regexp', () => {

@@ -80,7 +80,21 @@ test('encode cyclic reference', () => {
 })
 
 test('encode date', () => {
-  expect(encode({ a: new Date(1483228800000) })).toBe('?a=$date:2017-01-01T00:00:00.000Z;')
+  function withTimezoneOffset (date, offset) {
+    const result = new Date(date.getTime())
+    result.getTimezoneOffset = () => offset
+    return result
+  }
+  expect(encode({ a: withTimezoneOffset(new Date(2019, 0), 0) })).toBe('?a=$date:2019Z;')
+  expect(encode({ a: withTimezoneOffset(new Date(2019, 1), 0) })).toBe('?a=$date:2019-02Z;')
+  expect(encode({ a: withTimezoneOffset(new Date(2019, 0, 2), 0) })).toBe('?a=$date:2019-01-02Z;')
+  expect(encode({ a: withTimezoneOffset(new Date(2019, 0, 1, 1), 0) })).toBe('?a=$date:2019-01-01T01:00Z;')
+  expect(encode({ a: withTimezoneOffset(new Date(2019, 0, 1, 1, 1), 0) })).toBe('?a=$date:2019-01-01T01:01Z;')
+  expect(encode({ a: withTimezoneOffset(new Date(2019, 0, 1, 1, 1, 1), 0) })).toBe('?a=$date:2019-01-01T01:01:01Z;')
+  expect(encode({ a: withTimezoneOffset(new Date(2019, 0, 1, 1, 1, 1, 1), 0) })).toBe('?a=$date:2019-01-01T01:01:01.001Z;')
+  expect(encode({ a: withTimezoneOffset(new Date(2019, 0, 1, 1, 1, 1, 999), 0) })).toBe('?a=$date:~2019-01-01T01:01:02Z;')
+  expect(encode({ a: withTimezoneOffset(new Date(2019, 0, 1, 1, 1, 59, 999), 0) })).toBe('?a=$date:~2019-01-01T01:02Z;')
+  expect(encode({ a: withTimezoneOffset(new Date(2019, 0), -480) })).toBe('?a=$date:2019+08;')
 })
 
 test('encode regexp', () => {

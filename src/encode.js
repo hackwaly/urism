@@ -10,7 +10,48 @@ export function encode (obj) {
 
   function emitDate (value) {
     emit('$date:')
-    emitValue(value.toISOString())
+    const offset = value.getTimezoneOffset()
+    const atEnd = value.getMilliseconds() === 999
+    if (atEnd) {
+      value = new Date(value.getTime() + 1)
+    }
+
+    function digits (value, num = 2) {
+      return `${value}`.padStart(num, '0')
+    }
+
+    let str = `${value.getFullYear()}-${digits(value.getMonth() + 1)}-${digits(value.getDate())}T${digits(value.getHours())}:${digits(value.getMinutes())}:${digits(value.getSeconds())}.${digits(value.getMilliseconds(), 3)}`
+    if (str.endsWith('.000')) {
+      str = str.slice(0, -4)
+      if (str.endsWith(':00')) {
+        str = str.slice(0, -3)
+        if (str.endsWith('T00:00')) {
+          str = str.slice(0, -6)
+          if (str.endsWith('-01')) {
+            str = str.slice(0, -3)
+            if (str.endsWith('-01')) {
+              str = str.slice(0, -3)
+            }
+          }
+        }
+      }
+    }
+
+    const absOffset = Math.abs(offset)
+    let zoneStr = `${offset <= 0 ? '+' : '-'}${digits(Math.floor(absOffset / 60))}${digits(absOffset % 60)}`
+    if (zoneStr.endsWith('00')) {
+      zoneStr = zoneStr.slice(0, -2)
+      if (zoneStr.endsWith('+00')) {
+        zoneStr = 'Z'
+      }
+    }
+
+    str = `${str}${zoneStr}`
+
+    if (atEnd) {
+      str = `~${str}`
+    }
+    emitValue(str)
     emit(';')
   }
 

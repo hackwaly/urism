@@ -1,7 +1,7 @@
 {
   "name": "urism",
   "description": "Convert your JS object from/to human readable URI.",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "license": "MIT",
   "module": "./src/urism",
   "main": "./lib/urism",
