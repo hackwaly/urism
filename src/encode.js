@@ -110,10 +110,6 @@ export function encode (obj) {
   }
 
   function emitPair (key, value, endDelimiter) {
-    if (value === undefined) {
-      return
-    }
-
     if (value === false) {
       emit('-')
     }
@@ -132,6 +128,8 @@ export function encode (obj) {
     const keys = Object.keys(obj)
     for (let i = 0; i < keys.length; i++) {
       const key = keys[i]
+      const value = obj[key]
+      if (value === undefined) continue
       const isLast = i === keys.length - 1
       if (isLast) {
         emitPair(key, obj[key], endDelimiter)

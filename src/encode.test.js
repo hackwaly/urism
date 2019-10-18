@@ -2,6 +2,7 @@ import { encode } from './encode'
 
 test('encode undefined', () => {
   expect(encode({ a: undefined })).toBe('?')
+  expect(encode({ a: undefined, b: 1 })).toBe('?b=1')
   expect(encode({ a: [undefined] })).toBe('?a=:$undef')
 })
 
