@@ -205,7 +205,7 @@ export function encode (obj) {
     for (let i = 0; i < arr.length; i++) {
       const value = arr[i]
       const isLast = i === arr.length - 1
-      emitValue(value, ',')
+      emitValue(value, (isLast && endDelimiter === '') ? '' : ',')
       if (!isLast) {
         emit(',')
       }

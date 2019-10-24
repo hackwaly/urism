@@ -55,6 +55,7 @@ test('decode string', () => {
 
 test('decode array', () => {
   expect(decode('?a=:')).toEqual({ a: [] })
+  expect(decode('?a=:?=')).toEqual({ a: ['='] })
   expect(decode('?a=:1')).toEqual({ a: [1] })
   expect(decode('?a=:1,2,3')).toEqual({ a: [1, 2, 3] })
   expect(decode('?a=:?,?,1')).toEqual({ a: [',', 1] })
