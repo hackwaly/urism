@@ -2,4 +2,4 @@
 
 Convert your JS object from/to human readable URI.
 
-[![Build Status](https://api.travis-ci.org/hackwaly/urism.png?branch=master)](http://travis-ci.org/hackwaly/urism)
+[![Build Status](https://travis-ci.com/hackwaly/urism.svg?token=pxqyFKtvSJ5zppZXXVbG&branch=master)](https://travis-ci.com/hackwaly/urism)
