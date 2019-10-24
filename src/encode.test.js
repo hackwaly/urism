@@ -58,6 +58,7 @@ test('encode string', () => {
 
 test('encode array', () => {
   expect(encode({ a: [] })).toBe('?a=:')
+  expect(encode({ a: ['='] })).toBe('?a=:?=')
   expect(encode({ a: [1] })).toBe('?a=:1')
   expect(encode({ a: [1, 2, 3] })).toBe('?a=:1,2,3')
   expect(encode({ a: [',', 1] })).toBe('?a=:?,?,1')
