@@ -16,8 +16,8 @@ export function encode (obj) {
       value = new Date(value.getTime() + 1)
     }
 
-    function digits (value, num = 2) {
-      return `${value}`.padStart(num, '0')
+    function digits (value, len = 2) {
+      return `0000${value}`.slice(-len)
     }
 
     let str = `${value.getFullYear()}-${digits(value.getMonth() + 1)}-${digits(value.getDate())}T${digits(value.getHours())}:${digits(value.getMinutes())}:${digits(value.getSeconds())}.${digits(value.getMilliseconds(), 3)}`

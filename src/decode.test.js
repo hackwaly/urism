@@ -27,10 +27,13 @@ test('decode number', () => {
   expect(decode('?a=1e5')).toEqual({ a: 1e5 })
 })
 
-test('decode bigint', () => {
-  // eslint-disable-next-line no-eval
-  expect(decode('?a=$bigint:100000000000;')).toEqual({ a: eval('100000000000n') })
-})
+try {
+  /* eslint-disable no-eval */
+  eval('100000000000n')
+  test('decode bigint', () => {
+    expect(decode('?a=$bigint:100000000000;')).toEqual({ a: eval('100000000000n') })
+  })
+} catch (ex) {}
 
 test('decode string', () => {
   expect(decode('?a=')).toEqual({ a: '' })
