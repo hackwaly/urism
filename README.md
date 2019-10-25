@@ -19,10 +19,10 @@ TO DO
 
 * Specific values encoded to aliases. `true` -> `"$true"`, `null` -> `"$null"`, `NaN` -> `"$nan"` ...
 * Reserved characters and non-ascii characters encoded to percent escaped sequence. `"#"` -> `"%23"`, `" "` -> `"%20"`, `"你好"` -> `"%E4%BD%A0%E5%A5%BD"`
-* Boolean(s) and undefined(s) as object property have syntax sugar. `{a: true, b: undefined, c: false}` -> `"+a&-b;"`.
 * Number(s) keep their literal except specific values `NaN`, `Infinity`, `-Infinity`. Numbers will encoded to exponential format if it's shorter.
 * String(s) will encoded in raw mode if ambiguity. Eg. It looks like number, array, object or alias. Raw mode start with marker `"?"`. End with marker `"?"`. `"1-2-3"` -> `"1-2-3"`, `"123"` -> `"?123?"`.
 * Object(s) except root object start with marker `"+"`. `{a:1, b:2}` -> `"+a=1&b=2;"`
+* Boolean(s) and undefined(s) as object property have syntax sugar. `{a: true, b: undefined, c: false}` -> `"+a&-b;"`.
 * Array(s) start with marker `":"`. End with marker `";"`. `[1,2,3]` -> `":1,2,3;"`.
 * Cyclic references encoded to aliases. `var a = {}; a.a = a; a` -> `"0$+a=$0;"`.
 * Date(s) and RegExp(s) encoded to call form of alias. `new Date(2019, 10, 11)` -> `"$date:2019-11-11+08;"`.
