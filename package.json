@@ -7,7 +7,7 @@
   "main": "./lib/urism",
   "repository": "github:hackwaly/urism",
   "scripts": {
-    "prepublish": "",
+    "prepublish": "babel src/**/*.js -d lib",
     "test": "jest"
   },
   "devDependencies": {
