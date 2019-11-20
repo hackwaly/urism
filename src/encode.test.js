@@ -1,4 +1,4 @@
-import { encode } from './encode'
+import { encode, encodeAsCallRef, encodeAsIs } from './encode'
 
 test('encode undefined', () => {
   expect(encode({ a: undefined })).toBe('?')
@@ -103,4 +103,22 @@ test('encode date', () => {
 
 test('encode regexp', () => {
   expect(encode({ a: /a|b/g })).toBe('?a=$regexp:a%7Cb,g;')
+})
+
+test('encode with as is intercepter', () => {
+  const intercepter = jest.fn((value) => {
+    return encodeAsIs(value)
+  })
+  expect(encode({ a: 0 }, intercepter)).toEqual(encode({ a: 0 }))
+  expect(intercepter.mock.calls).toHaveLength(1)
+  expect(intercepter.mock.calls[0]).toEqual([0])
+})
+
+test('encode with as call ref intercepter', () => {
+  expect(encode({ a: 0 }, (value) => {
+    if (value === 0) {
+      return encodeAsCallRef('myRef', 1)
+    }
+    return encodeAsIs(value)
+  })).toBe('?a=$myRef:1;')
 })

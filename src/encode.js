@@ -1,4 +1,15 @@
-export function encode (obj) {
+const AS_IS = 0
+const CALL_REF = 1
+
+export function encodeAsIs (value) {
+  return [AS_IS, value]
+}
+
+export function encodeAsCallRef (refKey, ...args) {
+  return [CALL_REF, [refKey, args]]
+}
+
+export function encode (obj, interceptor) {
   let buffer = ''
 
   const objMetaMap = new Map()
@@ -64,6 +75,20 @@ export function encode (obj) {
   }
 
   function emitValue (value, endDelimiter) {
+    if (interceptor) {
+      const [kind, data] = interceptor(value)
+      if (kind === CALL_REF) {
+        const [refKey, args] = data
+        emit(`$${refKey}`)
+        emitArray(args, endDelimiter, true)
+        return
+      } else if (kind === AS_IS) {
+        // Do nothing
+      } else {
+        throw new Error('Assertion failed')
+      }
+    }
+
     switch (typeof value) {
       case 'undefined': {
         emit('$undef')
@@ -200,7 +225,7 @@ export function encode (obj) {
     }
   }
 
-  function emitArray (arr, endDelimiter) {
+  function emitArray (arr, endDelimiter, forceEnd) {
     emit(':')
     for (let i = 0; i < arr.length; i++) {
       const value = arr[i]
@@ -210,7 +235,7 @@ export function encode (obj) {
         emit(',')
       }
     }
-    if (!(endDelimiter === '' || endDelimiter === '&')) {
+    if (forceEnd || !(endDelimiter === '' || endDelimiter === '&')) {
       emit(';')
     }
   }
