@@ -140,13 +140,13 @@ export function decode (input, refs) {
       const key = readString()
       const ch2 = peek()
 
-      if (ch2 === '' || ch2 === '&') {
+      if (ch2 === '' || ch2 === '&' || ch2 === ';') {
         if (key.startsWith('-')) {
           result[key.slice(1)] = false
         } else {
           result[key] = true
         }
-        if (ch2 === '') break
+        if (ch2 === '' || ch2 === ';') break
       } else if (ch2 === '=') {
         cursor++
         const value = readValue()

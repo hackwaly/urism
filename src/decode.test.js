@@ -72,6 +72,7 @@ test('decode object', () => {
   expect(decode('?a=+&b')).toEqual({ a: {}, b: true })
   expect(decode('?a=+b=+')).toEqual({ a: { b: {} } })
   expect(decode('?a=+b=+&c')).toEqual({ a: { b: {}, c: true } })
+  expect(decode('?a=+b&-c;&d=1')).toEqual({ a: { b: true, c: false }, d: 1 })
 })
 
 test('decode cyclic reference', () => {
