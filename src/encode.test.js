@@ -44,6 +44,7 @@ test('encode string', () => {
   expect(encode({ a: '', b: true })).toBe('?a=&b')
   expect(encode({ a: '0' })).toBe('?a=?0')
   expect(encode({ a: '123' })).toBe('?a=?123')
+  expect(encode({ a: '0123' })).toBe('?a=0123')
   expect(encode({ a: '-123' })).toBe('?a=?-123')
   expect(encode({ a: '-123', b: true })).toBe('?a=?-123?&b')
   expect(encode({ a: '1.0.0' })).toBe('?a=1.0.0')

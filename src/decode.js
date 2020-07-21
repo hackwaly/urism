@@ -198,11 +198,11 @@ export function decode (input, refs) {
         return value
       }
       const str = readUntil(/[,;=&]/g)
-      const num = Number(str)
-      if (isNaN(num)) {
+      if (/^(?:[1-9][0-9]*|0)(?:(?:[.][0-9]+)?(?:[eE][+-]?(?:[1-9][0-9]*|0))?$|\$)/.test(str)) {
+        return Number(str)
+      } else {
         return decodeURIComponent(str)
       }
-      return num
     }
 
     if (ch === ':') {

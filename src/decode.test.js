@@ -40,6 +40,7 @@ test('decode string', () => {
   expect(decode('?a=&b')).toEqual({ a: '', b: true })
   expect(decode('?a=?0')).toEqual({ a: '0' })
   expect(decode('?a=?123')).toEqual({ a: '123' })
+  expect(decode('?a=0123')).toEqual({ a: '0123' })
   expect(decode('?a=?-123')).toEqual({ a: '-123' })
   expect(decode('?a=?-123?&b')).toEqual({ a: '-123', b: true })
   expect(decode('?a=1.0.0')).toEqual({ a: '1.0.0' })
